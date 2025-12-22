@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Startpage</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><rect width='100%' height='100%' fill='%23071c2c'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-size='28' font-family='Arial'>fm</text></svg>">
+</head>
+<body>
+  <main class="container">
+    <header>
+  <div id="sp_clock" class="clock" aria-live="polite">
+        <div id="sp_time" class="time" title="Kliknij, aby skopiować"></div>
+        <div id="sp_date" class="date"></div>
+      </div>
+    </header>
+
+    <section class="search">
+      <form id="searchForm">
+        <input id="searchInput" type="search" autocomplete="off" placeholder="Wpisz zapytanie i naciśnij Enter" />
+      </form>
+      <div class="engines">
+        <button class="engine" data-key="v" data-id="virgil">Virgil (gry) <span class="kbd">Alt+V</span></button>
+        <button class="engine" data-key="p" data-id="playseek">PlaySeek (gry) <span class="kbd">Alt+P</span></button>
+        <button class="engine" data-key="g" data-id="google">Google <span class="kbd">Alt+G</span></button>
+        <button class="engine" data-key="s" data-id="chatgpt">ChatGPT (otwórz czat) <span class="kbd">Alt+S</span></button>
+      </div>
+    </section>
+
+    <section class="shortcuts">
+      <div class="shortcuts-header">
+        <h3>Bookmarks</h3>
+        <div class="actions">
+          <button id="btnAdd" type="button">Dodaj</button>
+          <button id="btnImport" type="button">Import</button>
+          <button id="btnExport" type="button">Export</button>
+          <button id="btnSettings" type="button">Ustawienia</button>
+        </div>
+      </div>
+      <div class="bookmarks" id="bookmarks" aria-live="polite">
+      </div>
+      <p class="hint">Naciśnij <kbd>/</kbd> aby skupić wyszukiwarkę. <br>Wciśnj kombinację skrótu (np. "H N") gdy nie jest ustawiony focus na wyszukiwarce.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
