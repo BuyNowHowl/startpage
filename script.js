@@ -134,15 +134,15 @@
     modal.id = 'modal';
     modal.className = 'modal';
     modal.innerHTML = `<div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <h4 id="modalTitle">Dodaj / Edytuj zakładkę</h4>
+      <h4 id="modalTitle">Add / Edit bookmark</h4>
       <form id="bookmarkForm">
         <label>Title<br><input id="bmTitle" required /></label>
         <label>URL<br><input id="bmUrl" required placeholder="https://example.com" /></label>
         <label>Chord (np. H N)<br><input id="bmChord" placeholder="H N" /></label>
         <div class="modal-actions">
-          <button type="submit">Zapisz</button>
-          <button type="button" id="btnCancel">Anuluj</button>
-          <button type="button" id="btnDelete" class="danger">Usuń</button>
+          <button type="submit">Save</button>
+          <button type="button" id="btnCancel">Cancel</button>
+          <button type="button" id="btnDelete" class="danger">Delete</button>
         </div>
       </form>
     </div>`;
@@ -238,9 +238,9 @@
         if(Array.isArray(data)){
           bookmarksData = data.map(d => ({title:d.title||d.name||'untitled', url:d.url||d.href||'#', chord:(d.chord||'')}));
           saveBookmarks();
-          showToast('Import zakończony');
-        } else showToast('Niepoprawny format JSON');
-      }catch(err){ showToast('Błąd parsowania JSON'); }
+          showToast('Import finished');
+        } else showToast('Incorrest JSON format');
+      }catch(err){ showToast('JSON parse failure'); }
     };
     reader.readAsText(f);
     fileInput.value = '';
@@ -276,7 +276,7 @@
       elTime.textContent = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false});
     }
     // prepend weekday in Polish
-    const weekdays = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
+    const weekdays = ['Sunday','Monday','Tuesday','Wenesday','Thursday','Friday','Saturday'];
     const wd = weekdays[now.getDay()];
     elDate.textContent = wd + ', ' + now.toLocaleDateString();
   }
@@ -287,10 +287,10 @@
   document.addEventListener('click', e => {
     if(e.target && e.target.id === 'sp_time'){
       const now = new Date();
-      const weekdays = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
+      const weekdays = ['Sunday','Monday','Tuesday','Wenesday','Thursday','Friday','Saturday'];
       const s = weekdays[now.getDay()] + ', ' + now.toLocaleString();
-      navigator.clipboard?.writeText(s).then(()=> showToast('Data i godzina skopiowane'))
-        .catch(()=> showToast('Kopiowanie nie powiodło się'));
+      navigator.clipboard?.writeText(s).then(()=> showToast('Date and hour copied'))
+        .catch(()=> showToast('Copy failed'));
     }
   });
 
@@ -299,9 +299,9 @@
   if(!settingsModal){
     settingsModal = document.createElement('div'); settingsModal.id='settingsModal'; settingsModal.className='modal';
     settingsModal.innerHTML = `<div class="modal-content"><h4>Ustawienia</h4>
-      <label>Motyw<br><select id="selTheme"><option value="">(domyślny)</option><option value="dark">dark</option><option value="light">light</option></select></label>
-      <label>Format czasu<br><select id="selTimeFormat"><option value="">(domyślny)</option><option value="24">24h</option><option value="12">12h</option></select></label>
-      <div style="margin-top:10px"><button id="btnSaveSettings">Zapisz</button><button id="btnCloseSettings">Zamknij</button></div></div>`;
+      <label>Theme<br><select id="selTheme"><option value="">(Default)</option><option value="dark">dark</option><option value="light">light</option></select></label>
+      <label>Time format<br><select id="selTimeFormat"><option value="">(Default)</option><option value="24">24h</option><option value="12">12h</option></select></label>
+      <div style="margin-top:10px"><button id="btnSaveSettings">Save</button><button id="btnCloseSettings">Close</button></div></div>`;
     document.body.appendChild(settingsModal);
   }
   const selTheme = document.getElementById('selTheme');
@@ -322,7 +322,7 @@
     const tf = selTimeFormat.value;
     if(tf){ localStorage.setItem('sp_time_format', tf); } else { localStorage.removeItem('sp_time_format'); }
     settingsModal.classList.remove('open'); settingsModal.setAttribute('aria-hidden','true');
-    showToast('Ustawienia zapisane');
+    showToast('Settings saved');
     updateClock();
   });
 
