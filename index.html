@@ -11,20 +11,20 @@
   <main class="container">
     <header>
   <div id="sp_clock" class="clock" aria-live="polite">
-        <div id="sp_time" class="time" title="Kliknij, aby skopiować"></div>
+        <div id="sp_time" class="time" title="Click to copy"></div>
         <div id="sp_date" class="date"></div>
       </div>
     </header>
 
     <section class="search">
       <form id="searchForm">
-        <input id="searchInput" type="search" autocomplete="off" placeholder="Wpisz zapytanie i naciśnij Enter" />
+        <input id="searchInput" type="search" autocomplete="off" placeholder="Enter prompt and press enter" />
       </form>
       <div class="engines">
-        <button class="engine" data-key="v" data-id="virgil">Virgil (gry) <span class="kbd">Alt+V</span></button>
-        <button class="engine" data-key="p" data-id="playseek">PlaySeek (gry) <span class="kbd">Alt+P</span></button>
+        <button class="engine" data-key="v" data-id="virgil">Virgil (Games) <span class="kbd">Alt+V</span></button>
+        <button class="engine" data-key="p" data-id="playseek">PlaySeek (Games) <span class="kbd">Alt+P</span></button>
         <button class="engine" data-key="g" data-id="google">Google <span class="kbd">Alt+G</span></button>
-        <button class="engine" data-key="s" data-id="chatgpt">ChatGPT (otwórz czat) <span class="kbd">Alt+S</span></button>
+        <button class="engine" data-key="s" data-id="chatgpt">ChatGPT (Open Chat) <span class="kbd">Alt+S</span></button>
       </div>
     </section>
 
@@ -32,15 +32,15 @@
       <div class="shortcuts-header">
         <h3>Bookmarks</h3>
         <div class="actions">
-          <button id="btnAdd" type="button">Dodaj</button>
+          <button id="btnAdd" type="button">Add</button>
           <button id="btnImport" type="button">Import</button>
           <button id="btnExport" type="button">Export</button>
-          <button id="btnSettings" type="button">Ustawienia</button>
+          <button id="btnSettings" type="button">Settings</button>
         </div>
       </div>
       <div class="bookmarks" id="bookmarks" aria-live="polite">
       </div>
-      <p class="hint">Naciśnij <kbd>/</kbd> aby skupić wyszukiwarkę. <br>Wciśnj kombinację skrótu (np. "H N") gdy nie jest ustawiony focus na wyszukiwarce.</p>
+      <p class="hint">Press <kbd>/</kbd> to focus finder. <br>Press combination shortcut (ex. "H N") if not focussed on finder.</p>
     </section>
   </main>
 
