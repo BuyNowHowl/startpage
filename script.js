@@ -298,7 +298,7 @@
   let settingsModal = document.getElementById('settingsModal');
   if(!settingsModal){
     settingsModal = document.createElement('div'); settingsModal.id='settingsModal'; settingsModal.className='modal';
-    settingsModal.innerHTML = `<div class="modal-content"><h4>Ustawienia</h4>
+    settingsModal.innerHTML = `<div class="modal-content"><h4>Settings</h4>
       <label>Theme<br><select id="selTheme"><option value="">(Default)</option><option value="dark">dark</option><option value="light">light</option></select></label>
       <label>Time format<br><select id="selTimeFormat"><option value="">(Default)</option><option value="24">24h</option><option value="12">12h</option></select></label>
       <div style="margin-top:10px"><button id="btnSaveSettings">Save</button><button id="btnCloseSettings">Close</button></div></div>`;
