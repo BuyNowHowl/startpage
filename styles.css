@@ -34,7 +34,6 @@ header{ text-align:center; margin-bottom:18px }
   width:100%; padding:18px 16px; border-radius:12px; border:1px solid rgba(255,255,255,0.04);
   background:var(--glass); color:inherit; font-size:18px; outline:none;
 }
-/* suggestions removed per user request */
 .engines{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap }
 .engine{
   background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03);
@@ -65,15 +64,12 @@ footer{ margin-top:36px; color:var(--muted) }
 .clock .date{ font-size:14px; color:var(--muted); margin-top:2px }
 .clock .time:hover{ cursor:pointer; opacity:0.9 }
 
-/* Toast */
 .toast{ position:fixed; left:50%; transform:translateX(-50%); bottom:28px; background:rgba(0,0,0,0.7); color:#fff; padding:10px 14px; border-radius:8px; opacity:0; transition:opacity .18s ease; pointer-events:none; z-index:1000 }
 .toast.visible{ opacity:1; pointer-events:auto }
 
-/* small modal tweaks for settings */
 #settingsModal .modal-content{ width:360px; max-width:92%; }
 #settingsModal .modal-content select{ width:100%; padding:8px; border-radius:8px }
 
-/* Modal */
 .modal{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(2,6,10,0.5); opacity:0; pointer-events:none; transition:opacity .18s ease }
 .modal.open{ opacity:1; pointer-events:auto }
 .modal-content{ background:var(--card); padding:18px; border-radius:12px; width:min(680px,96%); box-shadow:0 10px 30px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.03) }
@@ -84,7 +80,6 @@ footer{ margin-top:36px; color:var(--muted) }
 .modal-actions .danger{ background:transparent; border:1px solid rgba(255,100,100,0.14); color:#ffb4b4 }
 .modal-actions button{ padding:8px 12px; border-radius:8px; cursor:pointer }
 
-/* themes */
 :root[data-theme='light']{
   --bg: #f6f8fb;
   --card: #ffffff;

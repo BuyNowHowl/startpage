@@ -1,5 +1,4 @@
 (function(){
-  // --- Search engines ---
   const engines = {
     virgil: 'https://virgil.samidy.com/Games/?q=',
     playseek: 'https://playseek.app/search?q=',
@@ -25,10 +24,7 @@
     e.preventDefault();
     const q = input.value.trim();
     if(!q) return;
-    // Special handling for chat services that don't accept simple query GET params
     if(selectedEngine === 'chatgpt'){
-      // Try to open ChatGPT with a prompt query param.
-      // Note: chat.openai.com may accept ?prompt= in some deployments — if not, the page will open and user can paste.
       const chatUrl = 'https://chat.openai.com/?prompt=' + encodeURIComponent(q);
       window.open(chatUrl, '_blank');
       return;
@@ -38,28 +34,14 @@
     window.open(url, '_blank');
   });
 
-  // Keyboard shortcuts: Alt + a/s/d/f select engine and '/' to focus
   window.addEventListener('keydown', e => {
     if(e.key === '/'){
       input.focus();
       e.preventDefault();
       return;
     }
-    if(e.altKey && !e.shiftKey && !e.ctrlKey){
-      const key = e.key.toLowerCase();
-      for(const btn of engineButtons){
-        if(btn.dataset.key === key){
-          setActive(btn.dataset.id);
-          e.preventDefault();
-          return;
-        }
-      }
-    }
   });
 
-  
-
-  // --- Bookmarks data + persistence ---
   const DEFAULT_BOOKMARKS = [
     {title:'Hacker News', url:'https://news.ycombinator.com', chord:'H N'},
     {title:'GitHub', url:'https://github.com', chord:'G H'},
@@ -73,12 +55,8 @@
 
   const bookmarksEl = document.getElementById('bookmarks');
   const btnAdd = document.getElementById('btnAdd');
-  const btnImport = document.getElementById('btnImport');
-  const btnExport = document.getElementById('btnExport');
   const btnSettings = document.getElementById('btnSettings');
 
-  // Modal elements
-  // ... existing DOM will be added later; create helpers to open/close modal
   function renderBookmarks(){
     bookmarksEl.innerHTML = '';
     bookmarksData.forEach((bm, idx) => {
@@ -89,7 +67,6 @@
       a.dataset.chord = bm.chord || '';
       const fav = document.createElement('img');
       fav.className = 'favicon';
-      // use google s2 favicon service (domain_url)
       try{
         const u = new URL(bm.url);
         fav.src = 'https://www.google.com/s2/favicons?sz=64&domain_url=' + encodeURIComponent(u.origin);
@@ -102,14 +79,12 @@
       a.appendChild(title);
       a.appendChild(small);
       a.addEventListener('click', e => {
-        // normal open in new tab handled by anchor
       });
       a.addEventListener('contextmenu', e => {
         e.preventDefault();
         openEditModal(idx);
       });
       a.addEventListener('dblclick', e => {
-        // double click to edit
         e.preventDefault();
         openEditModal(idx);
       });
@@ -126,8 +101,6 @@
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  // --- modal / form handling ---
-  // Create modal markup if missing (for backward compat)
   let modal = document.getElementById('modal');
   if(!modal){
     modal = document.createElement('div');
@@ -216,37 +189,7 @@
     }
   });
 
-  // import/export
-  const fileInput = document.getElementById('fileInput') || (function(){
-    const f = document.createElement('input'); f.type='file'; f.accept='application/json'; f.style.display='none'; f.id='fileInput'; document.body.appendChild(f); return f;
-  })();
 
-  btnExport.addEventListener('click', () => {
-    const blob = new Blob([JSON.stringify(bookmarksData, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'bookmarks.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-  });
-
-  btnImport.addEventListener('click', () => fileInput.click());
-  fileInput.addEventListener('change', e => {
-    const f = e.target.files && e.target.files[0];
-    if(!f) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      try{
-        const data = JSON.parse(ev.target.result);
-        if(Array.isArray(data)){
-          bookmarksData = data.map(d => ({title:d.title||d.name||'untitled', url:d.url||d.href||'#', chord:(d.chord||'')}));
-          saveBookmarks();
-          showToast('Import finished');
-        } else showToast('Incorrest JSON format');
-      }catch(err){ showToast('JSON parse failure'); }
-    };
-    reader.readAsText(f);
-    fileInput.value = '';
-  });
-
-  // --- Toasts (simple) ---
   function showToast(msg, timeout = 2800){
     let t = document.getElementById('sp_toast');
     if(!t){ t = document.createElement('div'); t.id = 'sp_toast'; t.className='toast'; document.body.appendChild(t); }
@@ -255,17 +198,14 @@
     setTimeout(()=> t.classList.remove('visible'), timeout);
   }
 
-  // --- Clock ---
   function updateClock(){
     const el = document.getElementById('sp_clock');
     const elTime = document.getElementById('sp_time');
     const elDate = document.getElementById('sp_date');
     if(!elTime || !elDate) return;
     const now = new Date();
-    // show time according to user preference
     const tf = localStorage.getItem('sp_time_format');
     if(tf === '12'){
-      // Manual 12-hour format with uppercase AM/PM
       const hh24 = now.getHours();
       const ampm = hh24 < 12 ? 'AM' : 'PM';
       let hh = hh24 % 12; if(hh === 0) hh = 12;
@@ -275,7 +215,6 @@
     } else {
       elTime.textContent = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false});
     }
-    // prepend weekday in Polish
     const weekdays = ['Sunday','Monday','Tuesday','Wenesday','Thursday','Friday','Saturday'];
     const wd = weekdays[now.getDay()];
     elDate.textContent = wd + ', ' + now.toLocaleDateString();
@@ -283,7 +222,6 @@
   setInterval(updateClock, 1000);
   updateClock();
 
-  // copy datetime on click
   document.addEventListener('click', e => {
     if(e.target && e.target.id === 'sp_time'){
       const now = new Date();
@@ -294,7 +232,6 @@
     }
   });
 
-  // --- Settings modal (simple) ---
   let settingsModal = document.getElementById('settingsModal');
   if(!settingsModal){
     settingsModal = document.createElement('div'); settingsModal.id='settingsModal'; settingsModal.className='modal';
@@ -326,10 +263,9 @@
     updateClock();
   });
 
-  // chord typing: updated to read from bookmarksData
   let chordBuffer = '';
   window.addEventListener('keydown', e => {
-    if(document.activeElement === input) return; // when typing in search ignore
+    if(document.activeElement === input) return;
     if(e.key.length === 1){
       chordBuffer += e.key.toLowerCase();
       setTimeout(()=>{ chordBuffer = '' }, 900);
@@ -344,16 +280,13 @@
     }
   });
 
-  // --- Theme toggle (dark/light) ---
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   const savedTheme = localStorage.getItem('sp_theme');
   const theme = savedTheme || (prefersDark ? 'dark' : 'light');
   document.documentElement.setAttribute('data-theme', theme);
 
-  // initial render
   setActive(selectedEngine, false);
   renderBookmarks();
 
-  // Expose small API for console/debug
   window.__startpage = {bookmarksData, saveBookmarks};
 })();
