@@ -17,13 +17,13 @@
 
     <section class="search">
       <form id="searchForm">
-        <input id="searchInput" type="search" autocomplete="off" placeholder="Enter prompt and press enter" />
+        <input id="searchInput" type="search" placeholder="Enter prompt and press enter" />
       </form>
       <div class="engines">
-        <button class="engine" data-key="v" data-id="virgil">Virgil (Games)</button>
-        <button class="engine" data-key="p" data-id="playseek">PlaySeek (Games)</button>
-        <button class="engine" data-key="g" data-id="google">Google</button>
-        <button class="engine" data-key="s" data-id="chatgpt">ChatGPT (Open Chat)</button>
+        <button class="engine" data-id="virgil">Virgil (Games)</button>
+        <button class="engine" data-id="playseek">PlaySeek (Games)</button>
+        <button class="engine" data-id="google">Google</button>
+        <button class="engine" data-id="chatgpt">ChatGPT (Open Chat)</button>
       </div>
     </section>
 
@@ -40,6 +40,14 @@
       <p class="hint">Press <kbd>/</kbd> to focus finder. <br>Press combination shortcut (ex. "H N") if not focussed on finder.</p>
     </section>
   </main>
+  <aside id="notesSidebar" class="notes-sidebar" aria-label="Notes">
+    <div class="notes-inner">
+      <h4>Notes</h4>
+      <textarea id="noteInput" placeholder="Write a quick note..."></textarea>
+      <div class="notes-actions"><button id="btnAddNote" type="button">Add</button></div>
+      <div id="notesList" class="notes-list" aria-live="polite"></div>
+    </div>
+  </aside>
   <script src="script.js"></script>
 </body>
 </html>

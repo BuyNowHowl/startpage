@@ -288,5 +288,48 @@
   setActive(selectedEngine, false);
   renderBookmarks();
 
-  window.__startpage = {bookmarksData, saveBookmarks};
+  const noteInput = document.getElementById('noteInput');
+  const btnAddNote = document.getElementById('btnAddNote');
+  const notesListEl = document.getElementById('notesList');
+
+  let notes = JSON.parse(localStorage.getItem('sp_notes_items') || 'null') || [];
+
+  function saveNotes(){
+    localStorage.setItem('sp_notes_items', JSON.stringify(notes));
+  }
+
+  function renderNotes(){
+    if(!notesListEl) return;
+    notesListEl.innerHTML = '';
+    notes.forEach((n, i) => {
+      const div = document.createElement('div');
+      div.className = 'note-item';
+      const p = document.createElement('div');
+      p.textContent = n.text;
+      div.appendChild(p);
+      const del = document.createElement('button');
+      del.className = 'note-del';
+      del.setAttribute('aria-label','Delete note');
+      del.textContent = '✕';
+      del.addEventListener('click', ()=>{ notes.splice(i,1); saveNotes(); renderNotes(); showToast('Note removed'); });
+      div.appendChild(del);
+      notesListEl.appendChild(div);
+    });
+  }
+
+  if(btnAddNote && noteInput){
+    btnAddNote.addEventListener('click', ()=>{
+      const t = noteInput.value.trim();
+      if(!t) return showToast('Note is empty');
+      notes.unshift({text:t, created: Date.now()});
+      saveNotes();
+      renderNotes();
+      noteInput.value = '';
+      showToast('Note added');
+    });
+  }
+
+  renderNotes();
+
+  window.__startpage = {bookmarksData, saveBookmarks, notes};
 })();
